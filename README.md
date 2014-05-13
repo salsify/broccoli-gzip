@@ -1,2 +1,45 @@
-broccoli-gzip
-=============
+# Broccoli Gzip Plugin
+
+## Installation
+
+```bash
+npm install -D broccoli-gzip
+```
+
+## Example
+
+```javascript
+var gzipFiles = require('broccoli-gzip');
+
+var tree = gzipFiles('app', {
+  extensions: ['js', 'css']
+});
+```
+
+## Configuration
+
+### `gzipFiles(inputTree, options)`
+
+---
+
+`options.extensions` *{Array}* (Required)
+
+The file extensions that should be compressed.
+
+---
+
+`options.keepUncompressed` *{Boolean}* (Optional, default `false`)
+
+Whether the uncompressed versions of the files should be kept in the resulting tree.
+
+
+## Testing
+
+```bash
+npm install
+npm test
+```
+
+## License
+
+This project is distributed under the MIT license.
