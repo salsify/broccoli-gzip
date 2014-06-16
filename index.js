@@ -11,6 +11,7 @@ function GzipFilter(inputTree, options) {
 
   options = options || {};
   this.keepUncompressed = options.keepUncompressed;
+  this.appendSuffix = !!options.appendSuffix;
 
   Filter.apply(this, arguments);
 }
@@ -30,7 +31,7 @@ GzipFilter.prototype.processString = function(str) {
 GzipFilter.prototype.getDestFilePath = function() {
   var destFilePath = Filter.prototype.getDestFilePath.apply(this, arguments);
   if (destFilePath) {
-    return destFilePath + '.gz';
+    return this.appendSuffix ? destFilePath + '.gz' : destFilePath;
   }
 };
 

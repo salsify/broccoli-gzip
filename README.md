@@ -32,6 +32,11 @@ The file extensions that should be compressed.
 
 Whether the uncompressed versions of the files should be kept in the resulting tree.
 
+---
+
+`options.appendSuffix` *{Boolean}* (Optional, default `true`)
+
+Whether to append the .gz suffix.
 
 ## Testing
 
