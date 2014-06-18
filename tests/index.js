@@ -3,15 +3,14 @@ var gzip = require('../index');
 var RSVP = require('rsvp');
 var zlib = require('zlib');
 var expect = require('expect.js');
-var root = process.cwd();
 
 var fs = require('fs');
 var broccoli = require('broccoli');
 
-var builder;
-
 var textContent = fs.readFileSync('tests/fixtures/sample-assets/test.txt');
 var csvContent = fs.readFileSync('tests/fixtures/sample-assets/test.csv');
+
+var builder;
 
 describe('broccoli-gzip', function(){
   afterEach(function() {
@@ -20,7 +19,7 @@ describe('broccoli-gzip', function(){
     }
   });
 
-  it('gzips files that match the configured extension', function(){
+  it('gzips files that match the configured extension', function() {
     var sourcePath = 'tests/fixtures/sample-assets';
     var tree = gzip(sourcePath, {
       extensions: ['txt']
@@ -42,7 +41,7 @@ describe('broccoli-gzip', function(){
     });
   });
 
-  it('keeps the uncompressed files when configured to', function(){
+  it('keeps the uncompressed files when configured to', function() {
     var sourcePath = 'tests/fixtures/sample-assets';
     var tree = gzip(sourcePath, {
       keepUncompressed: true,
