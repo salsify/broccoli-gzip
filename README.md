@@ -1,5 +1,7 @@
 # Broccoli Gzip Plugin
 
+[![Build Status](https://travis-ci.org/salsify/broccoli-gzip.svg?branch=feature%2Ftravis)](https://travis-ci.org/salsify/broccoli-gzip)
+
 ## Installation
 
 ```bash
