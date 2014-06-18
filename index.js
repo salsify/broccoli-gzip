@@ -11,7 +11,7 @@ function GzipFilter(inputTree, options) {
 
   options = options || {};
   this.keepUncompressed = options.keepUncompressed;
-  this.appendSuffix = options.appendSuffix || false;
+  this.appendSuffix = options.hasOwnProperty('appendSuffix') ? options.appendSuffix : true;
 
   Filter.apply(this, arguments);
 }
