@@ -63,4 +63,34 @@ describe('broccoli-gzip', function(){
     });
   });
 
+  it('it does not append the suffix when configured to', function(){
+    var sourcePath = 'tests/fixtures/sample-assets';
+    var tree = gzip(sourcePath, {
+      extensions: ['txt'],
+      appendSuffix: false
+    });
+
+    builder = new broccoli.Builder(tree);
+    return builder.build().then(function(build) {
+      var gzippedText = fs.readFileSync(build.directory + '/test.txt');
+      return RSVP.hash({
+        dir: build.directory,
+        actualText: RSVP.denodeify(zlib.gunzip)(gzippedText)
+      });
+    }).then(function(result) {
+      expect(result.actualText).to.eql(textContent);
+      expect(fs.existsSync(result.dir + '/test.txt.gz')).to.not.be.ok();
+    });
+  });
+
+  it('it errors when configured to use incompatible options', function(){
+    var sourcePath = 'tests/fixtures/sample-assets';
+
+    expect(function() {
+      gzip(sourcePath, {
+        keepUncompressed: true,
+        appendSuffix: false
+      });
+    }).to.throwError();
+  });
 });

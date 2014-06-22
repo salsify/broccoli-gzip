@@ -10,7 +10,13 @@ function GzipFilter(inputTree, options) {
   if (!(this instanceof GzipFilter)) return new GzipFilter(inputTree, options);
 
   options = options || {};
+
   this.keepUncompressed = options.keepUncompressed;
+  this.appendSuffix = options.hasOwnProperty('appendSuffix') ? options.appendSuffix : true;
+
+  if(this.keepUncompressed && !this.appendSuffix) {
+    throw new Error('Cannot keep uncompressed files without appending suffix. Filenames would be the same.');
+  }
 
   Filter.apply(this, arguments);
 }
@@ -30,7 +36,7 @@ GzipFilter.prototype.processString = function(str) {
 GzipFilter.prototype.getDestFilePath = function() {
   var destFilePath = Filter.prototype.getDestFilePath.apply(this, arguments);
   if (destFilePath) {
-    return destFilePath + '.gz';
+    return this.appendSuffix ? destFilePath + '.gz' : destFilePath;
   }
 };
 
