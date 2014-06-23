@@ -14,7 +14,6 @@
   },
   "keywords": [
     "broccoli-plugin",
-    "javascript",
     "gzip"
   ],
   "devDependencies": {
