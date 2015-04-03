@@ -1,6 +1,6 @@
 {
   "name": "broccoli-gzip",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Broccoli plugin to gzip files.",
   "main": "index.js",
   "author": "Dan Freeman",
