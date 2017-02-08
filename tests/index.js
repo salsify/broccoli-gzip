@@ -26,7 +26,7 @@ describe('broccoli-gzip', function(){
     });
 
     builder = new broccoli.Builder(tree);
-    return builder.build().then(function(build) {
+    builder.build().then(function(build) {
       var gzippedText = fs.readFileSync(build.directory + '/test.txt.gz');
 
       return RSVP.hash({
@@ -49,7 +49,7 @@ describe('broccoli-gzip', function(){
     });
 
     builder = new broccoli.Builder(tree);
-    return builder.build().then(function(build) {
+    builder.build().then(function(build) {
       var gzippedText = fs.readFileSync(build.directory + '/test.txt.gz');
       return RSVP.hash({
         dir: build.directory,
@@ -71,7 +71,7 @@ describe('broccoli-gzip', function(){
     });
 
     builder = new broccoli.Builder(tree);
-    return builder.build().then(function(build) {
+    builder.build().then(function(build) {
       var gzippedText = fs.readFileSync(build.directory + '/test.txt');
       return RSVP.hash({
         dir: build.directory,

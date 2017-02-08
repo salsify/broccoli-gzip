@@ -1,15 +1,21 @@
 var zlib = require('zlib');
 var RSVP = require('rsvp');
 var helpers = require('broccoli-kitchen-sink-helpers');
-var Filter = require('broccoli-filter');
+var Filter = require('broccoli-persistent-filter');
+var stringify = require('json-stable-stringify');
 
 GzipFilter.prototype = Object.create(Filter.prototype);
 GzipFilter.prototype.constructor = GzipFilter;
 
-function GzipFilter(inputTree, options) {
-  if (!(this instanceof GzipFilter)) return new GzipFilter(inputTree, options);
+function GzipFilter(inputNode, _options) {
+  if (!(this instanceof GzipFilter)) return new GzipFilter(inputNode, _options);
 
-  options = options || {};
+  var options = _options || {};
+  if (!options.hasOwnProperty('persist')) {
+    options.persist = true; // default to persistent cache
+  }
+
+  this.options = options;
 
   this.keepUncompressed = options.keepUncompressed;
   this.appendSuffix = options.hasOwnProperty('appendSuffix') ? options.appendSuffix : true;
@@ -22,7 +28,7 @@ function GzipFilter(inputTree, options) {
     throw new Error('Cannot keep uncompressed files without appending suffix. Filenames would be the same.');
   }
 
-  Filter.apply(this, arguments);
+  Filter.call(this, inputNode, options);
 }
 
 GzipFilter.prototype.processFile = function(srcDir, destDir, relativePath) {
@@ -32,6 +38,22 @@ GzipFilter.prototype.processFile = function(srcDir, destDir, relativePath) {
 
   return Filter.prototype.processFile.apply(this, arguments);
 };
+
+GzipFilter.prototype.baseDir = function() {
+  return __dirname;
+}
+
+GzipFilter.prototype.optionsHash =  function() {
+  if (!this._optionsHash) {
+    this._optionsHash = stringify(this.options);
+  }
+
+  return this._optionsHash;
+}
+
+GzipFilter.prototype.cacheKeyProcessString = function(string, relativePath) {
+  return this.optionsHash() + Filter.prototype.cacheKeyProcessString.call(this, string, relativePath);
+}
 
 GzipFilter.prototype.processString = function(str) {
   return RSVP.denodeify(zlib.gzip)(str);
