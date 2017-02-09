@@ -26,7 +26,7 @@ describe('broccoli-gzip', function(){
     });
 
     builder = new broccoli.Builder(tree);
-    builder.build().then(function(build) {
+    return builder.build().then(function(build) {
       var gzippedText = fs.readFileSync(build.directory + '/test.txt.gz');
 
       return RSVP.hash({
@@ -49,7 +49,7 @@ describe('broccoli-gzip', function(){
     });
 
     builder = new broccoli.Builder(tree);
-    builder.build().then(function(build) {
+    return builder.build().then(function(build) {
       var gzippedText = fs.readFileSync(build.directory + '/test.txt.gz');
       return RSVP.hash({
         dir: build.directory,
@@ -71,17 +71,25 @@ describe('broccoli-gzip', function(){
     });
 
     builder = new broccoli.Builder(tree);
-    builder.build().then(function(build) {
-      var gzippedText = fs.readFileSync(build.directory + '/test.txt');
-      return RSVP.hash({
-        dir: build.directory,
-        actualText: RSVP.denodeify(zlib.gunzip)(gzippedText)
-      });
-    }).then(function(result) {
-      expect(result.actualText).to.eql(textContent);
-      expect(fs.existsSync(result.dir + '/test.txt.gz')).to.not.be.ok();
-    });
+    return builder.build().then(function(one){
+      
+      console.log("$$$$$$")
+      console.log(one)
+    }, function(two) {
+      console.log("======")
+      console.log(two)
+    })
   });
+    // return builder.build().then(function() {
+    //   var gzippedText = fs.readFileSync(build.directory + '/test.txt');
+    //   return RSVP.hash({
+    //     dir: build.directory,
+    //     actualText: RSVP.denodeify(zlib.gunzip)(gzippedText)
+    //   });
+    // }).then(function(result) {
+    //   expect(result.actualText).to.eql(textContent);
+    //   expect(fs.existsSync(result.dir + '/test.txt.gz')).to.not.be.ok();
+    // });
 
   it('it errors when configured to use incompatible options', function(){
     var sourcePath = 'tests/fixtures/sample-assets';

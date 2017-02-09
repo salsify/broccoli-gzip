@@ -3,6 +3,7 @@ var RSVP = require('rsvp');
 var helpers = require('broccoli-kitchen-sink-helpers');
 var Filter = require('broccoli-persistent-filter');
 var stringify = require('json-stable-stringify');
+var crypto = require('crypto');
 
 GzipFilter.prototype = Object.create(Filter.prototype);
 GzipFilter.prototype.constructor = GzipFilter;
@@ -45,8 +46,10 @@ GzipFilter.prototype.baseDir = function() {
 
 GzipFilter.prototype.optionsHash =  function() {
   if (!this._optionsHash) {
-    this._optionsHash = stringify(this.options);
+    this._optionsHash = this.options;
   }
+
+  this._optionsHash = crypto.createHash('md5').update(stringify(this._optionsHash), 'utf-8').digest('hex');
 
   return this._optionsHash;
 }
