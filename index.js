@@ -13,7 +13,7 @@ function GzipFilter(inputNode, _options) {
 
   var options = _options || {};
   if (!options.hasOwnProperty('persist')) {
-    options.persist = true; // default to persistent cache
+    options.persist = true; // Default to persistent cache
   }
 
   this.options = options;
