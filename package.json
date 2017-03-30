@@ -22,9 +22,8 @@
     "mocha": "^3.2.0"
   },
   "dependencies": {
+    "broccoli-filter": "^1.2.4",
     "broccoli-kitchen-sink-helpers": "^0.3.1",
-    "broccoli-persistent-filter": "^1.2.13",
-    "json-stable-stringify": "^1.0.1",
     "rsvp": "^3.3.3"
   }
 }

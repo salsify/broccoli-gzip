@@ -1,9 +1,7 @@
 var zlib = require('zlib');
 var RSVP = require('rsvp');
 var helpers = require('broccoli-kitchen-sink-helpers');
-var Filter = require('broccoli-persistent-filter');
-var stringify = require('json-stable-stringify');
-var crypto = require('crypto');
+var Filter = require('broccoli-filter');
 
 GzipFilter.prototype = Object.create(Filter.prototype);
 GzipFilter.prototype.constructor = GzipFilter;
@@ -12,11 +10,6 @@ function GzipFilter(inputNode, _options) {
   if (!(this instanceof GzipFilter)) return new GzipFilter(inputNode, _options);
 
   var options = _options || {};
-  if (!options.hasOwnProperty('persist')) {
-    options.persist = true; // Default to persistent cache
-  }
-
-  this.options = options;
 
   this.keepUncompressed = options.keepUncompressed;
   this.appendSuffix = options.hasOwnProperty('appendSuffix') ? options.appendSuffix : true;
@@ -42,20 +35,6 @@ GzipFilter.prototype.processFile = function(srcDir, destDir, relativePath) {
 
 GzipFilter.prototype.baseDir = function() {
   return __dirname;
-}
-
-GzipFilter.prototype.optionsHash =  function() {
-  if (!this._optionsHash) {
-    this._optionsHash = this.options;
-  }
-
-  this._optionsHash = crypto.createHash('md5').update(stringify(this._optionsHash), 'utf-8').digest('hex');
-
-  return this._optionsHash;
-}
-
-GzipFilter.prototype.cacheKeyProcessString = function(string, relativePath) {
-  return this.optionsHash() + Filter.prototype.cacheKeyProcessString.call(this, string, relativePath);
 }
 
 GzipFilter.prototype.processString = function(str) {

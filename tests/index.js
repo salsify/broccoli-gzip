@@ -68,9 +68,11 @@ describe('broccoli-gzip', function(){
     var sourcePath = 'tests/fixtures/sample-assets';
     var tree = gzip(sourcePath, {
       extensions: ['txt'],
-      appendSuffix: false
+      appendSuffix: false,
+      keepCompressed: false
     });
 
+    builder = new broccoli.Builder(tree);
     return builder.build().then(function() {
       var gzippedText = fs.readFileSync(builder.outputPath + '/test.txt');
       return RSVP.hash({
