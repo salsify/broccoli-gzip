@@ -13,6 +13,9 @@ function GzipFilter(inputNode, _options) {
 
   this.keepUncompressed = options.keepUncompressed;
   this.appendSuffix = options.hasOwnProperty('appendSuffix') ? options.appendSuffix : true;
+  // Default file encoding is raw to handle binary files
+  this.inputEncoding = options.inputEncoding || null;
+  this.outputEncoding = options.outputEncoding || null;
 
   // Default file encoding is raw to handle binary files
   this.inputEncoding = options.inputEncoding || null;
