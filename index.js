@@ -6,10 +6,10 @@ var Filter = require('broccoli-filter');
 GzipFilter.prototype = Object.create(Filter.prototype);
 GzipFilter.prototype.constructor = GzipFilter;
 
-function GzipFilter(inputTree, options) {
-  if (!(this instanceof GzipFilter)) return new GzipFilter(inputTree, options);
+function GzipFilter(inputNode, _options) {
+  if (!(this instanceof GzipFilter)) return new GzipFilter(inputNode, _options);
 
-  options = options || {};
+  var options = _options || {};
 
   this.keepUncompressed = options.keepUncompressed;
   this.appendSuffix = options.hasOwnProperty('appendSuffix') ? options.appendSuffix : true;
@@ -22,7 +22,7 @@ function GzipFilter(inputTree, options) {
     throw new Error('Cannot keep uncompressed files without appending suffix. Filenames would be the same.');
   }
 
-  Filter.apply(this, arguments);
+  Filter.call(this, inputNode, options);
 }
 
 GzipFilter.prototype.processFile = function(srcDir, destDir, relativePath) {
@@ -32,6 +32,10 @@ GzipFilter.prototype.processFile = function(srcDir, destDir, relativePath) {
 
   return Filter.prototype.processFile.apply(this, arguments);
 };
+
+GzipFilter.prototype.baseDir = function() {
+  return __dirname;
+}
 
 GzipFilter.prototype.processString = function(str) {
   return RSVP.denodeify(zlib.gzip)(str);

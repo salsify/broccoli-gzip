@@ -17,13 +17,13 @@
     "gzip"
   ],
   "devDependencies": {
-    "broccoli": "^0.11.0",
+    "broccoli": "^1.1.0",
     "expect.js": "^0.3.1",
-    "mocha": "^1.18.2"
+    "mocha": "^3.2.0"
   },
   "dependencies": {
-    "broccoli-filter": "^0.1.6",
-    "broccoli-kitchen-sink-helpers": "^0.2.2",
-    "rsvp": "^3.0.6"
+    "broccoli-filter": "^1.2.4",
+    "broccoli-kitchen-sink-helpers": "^0.3.1",
+    "rsvp": "^3.3.3"
   }
 }

@@ -26,12 +26,13 @@ describe('broccoli-gzip', function(){
     });
 
     builder = new broccoli.Builder(tree);
-    return builder.build().then(function(build) {
-      var gzippedText = fs.readFileSync(build.directory + '/test.txt.gz');
+    return builder.build().then(function() {
+      var outputPath = builder.outputPath;
+      var gzippedText = fs.readFileSync(outputPath + '/test.txt.gz');
 
       return RSVP.hash({
-        dir: build.directory,
-        actualCsv: fs.readFileSync(build.directory + '/test.csv'),
+        dir: outputPath,
+        actualCsv: fs.readFileSync(outputPath  + '/test.csv'),
         actualText: RSVP.denodeify(zlib.gunzip)(gzippedText)
       });
     }).then(function(result) {
@@ -50,10 +51,10 @@ describe('broccoli-gzip', function(){
 
     builder = new broccoli.Builder(tree);
     return builder.build().then(function(build) {
-      var gzippedText = fs.readFileSync(build.directory + '/test.txt.gz');
+      var gzippedText = fs.readFileSync(builder.outputPath + '/test.txt.gz');
       return RSVP.hash({
-        dir: build.directory,
-        actualCsv: fs.readFileSync(build.directory + '/test.csv'),
+        dir: builder.outputPath,
+        actualCsv: fs.readFileSync(builder.outputPath + '/test.csv'),
         actualText: RSVP.denodeify(zlib.gunzip)(gzippedText)
       });
     }).then(function(result) {
@@ -67,14 +68,15 @@ describe('broccoli-gzip', function(){
     var sourcePath = 'tests/fixtures/sample-assets';
     var tree = gzip(sourcePath, {
       extensions: ['txt'],
-      appendSuffix: false
+      appendSuffix: false,
+      keepCompressed: false
     });
 
     builder = new broccoli.Builder(tree);
-    return builder.build().then(function(build) {
-      var gzippedText = fs.readFileSync(build.directory + '/test.txt');
+    return builder.build().then(function() {
+      var gzippedText = fs.readFileSync(builder.outputPath + '/test.txt');
       return RSVP.hash({
-        dir: build.directory,
+        dir: builder.outputPath,
         actualText: RSVP.denodeify(zlib.gunzip)(gzippedText)
       });
     }).then(function(result) {
