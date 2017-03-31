@@ -9,6 +9,9 @@
     "type": "git",
     "url": "https://github.com/salsify/broccoli-gzip.git"
   },
+  "engines": {
+    "node": ">= 4"
+  },
   "scripts": {
     "test": "mocha tests/"
   },

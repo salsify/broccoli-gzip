@@ -5,22 +5,22 @@
 ## Installation
 
 ```bash
-npm install -D broccoli-gzip
+yarn add broccoli-gzip
 ```
 
 ## Example
 
 ```javascript
-var gzipFiles = require('broccoli-gzip');
+const Gzip = require('broccoli-gzip');
 
-var tree = gzipFiles('app', {
+let tree = new Gzip('app', {
   extensions: ['js', 'css']
 });
 ```
 
 ## Configuration
 
-### `gzipFiles(inputTree, options)`
+### `new Gzip(inputTree, options)`
 
 ---
 
@@ -43,8 +43,7 @@ Whether to append the .gz suffix.
 ## Testing
 
 ```bash
-npm install
-npm test
+yarn test
 ```
 
 ## License
